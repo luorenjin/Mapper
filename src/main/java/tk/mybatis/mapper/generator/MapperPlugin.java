@@ -148,6 +148,10 @@ public class MapperPlugin extends PluginAdapter {
      */
     @Override
     public boolean modelPrimaryKeyClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+    	//为生成的实体类添加实现序列化接口，有利于对象序列化
+    	topLevelClass.addImportedType("java.io.Serializable");
+		topLevelClass.addSuperInterface(new FullyQualifiedJavaType("java.io.Serializable"));
+		topLevelClass.addAnnotation("@SuppressWarnings(\"serial\")");
         processEntityClass(topLevelClass, introspectedTable);
         return true;
     }
